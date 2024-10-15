@@ -39,12 +39,12 @@ public class AdminCategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<Category> createCategory(@RequestBody Category category) {
+    public ResponseEntity<PaginatedResponse.SingleResponse<Category>> createCategory(@RequestBody Category category) {
         Category createdCategory = categoryService.createCategory(category);
         PaginatedResponse.SingleResponse<Category> response = ResponseHelper.createSingleResponse(
                 "success", 0, "successfully", createdCategory
         );
-        return ResponseEntity.ok(createdCategory);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
@@ -60,9 +60,12 @@ public class AdminCategoryController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCategory(@PathVariable Long id) {
+    public ResponseEntity<PaginatedResponse.SingleResponse<Category>> deleteCategory(@PathVariable Long id) {
         categoryService.deleteCategory(id);
-        return ResponseEntity.ok("Category deleted successfully");
+        PaginatedResponse.SingleResponse<Category> response = ResponseHelper.createSingleResponse(
+                "success", 0, "successfully", null
+        );
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
