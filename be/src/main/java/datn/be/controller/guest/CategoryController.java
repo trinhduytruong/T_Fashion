@@ -40,7 +40,7 @@ public class CategoryController {
             return ResponseHelper.createPaginatedResponse("success", 0, "successfully", null);
 
         } finally {
-            logger.info("##### REQUEST FINISHED (getAllCategories) [Admin] #####");
+            logger.info("##### REQUEST FINISHED (getAllCategories) #####");
         }
     }
 
