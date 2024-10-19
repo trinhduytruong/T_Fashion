@@ -24,7 +24,9 @@ public class CategoryService {
     public Page<Category> getListCategories(String name, String status, int page, int size) {
         try {
             Pageable pageable = PageRequest.of(page - 1, size);
-            return this.categoryRepository.getListCategories(name, status, pageable);
+            Page<Category> categoriesList = categoryRepository.getListCategories(name, status, pageable);
+            logger.info("categoriesList: " + categoriesList);
+            return categoriesList;
         } catch (Exception e) {
             logger.error("CategoryService.getListCategories(): " + e);
             throw new RuntimeException(e);
@@ -90,6 +92,7 @@ public class CategoryService {
     }
 
     public Category getCategoryById(Long id) {
+        logger.info("get category with ID: " + id);
         return categoryRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Category not found with id " + id));
     }
