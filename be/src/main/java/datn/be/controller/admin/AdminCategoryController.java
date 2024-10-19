@@ -29,47 +29,84 @@ public class AdminCategoryController {
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
             @RequestParam(value = "size", required = false, defaultValue = "20") int size) {
 
+        logger.info("##### REQUEST RECEIVED (getAllCategories) [Admin] #####");
         try {
             Page<Category> categoryPage = this.categoryService.getListCategories(name, status, page, size);
             return ResponseHelper.createPaginatedResponse("success", 0, "successfully", categoryPage);
         } catch (Exception e) {
             logger.info("Exception: " + e.getMessage(), e);
             return ResponseHelper.createPaginatedResponse("errors", 0, "successfully", null);
+        } finally {
+            logger.info("##### REQUEST FINISHED (getAllCategories) [Admin] #####");
         }
     }
 
     @PostMapping
     public ResponseEntity<PaginatedResponse.SingleResponse<Category>> createCategory(@RequestBody Category category) {
-        Category createdCategory = categoryService.createCategory(category);
-        PaginatedResponse.SingleResponse<Category> response = ResponseHelper.createSingleResponse(
-                "success", 0, "successfully", createdCategory
-        );
-        return ResponseEntity.ok(response);
+        logger.info("##### REQUEST RECEIVED (createCategory) [Admin] #####");
+        try {
+            Category createdCategory = categoryService.createCategory(category);
+            PaginatedResponse.SingleResponse<Category> response = ResponseHelper.createSingleResponse(
+                    "success", 0, "successfully", createdCategory
+            );
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            logger.info("Exception: " + e.getMessage(), e);
+            PaginatedResponse.SingleResponse<Category> response = ResponseHelper.createSingleResponse(
+                    "errors", 0, "Có lỗi xẩy ra, xin vui lòng thử lại", null
+            );
+            return ResponseEntity.ok(response);
+        } finally {
+            logger.info("##### REQUEST FINISHED (createCategory) [Admin] #####");
+        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<PaginatedResponse.SingleResponse<Category>> updateCategory(
             @PathVariable Long id,
             @RequestBody Category category) {
-        Category updatedCategory = categoryService.updateCategory(id, category);
-        PaginatedResponse.SingleResponse<Category> response = ResponseHelper.createSingleResponse(
-                "success", 0, "successfully", updatedCategory
-        );
+        logger.info("##### REQUEST RECEIVED (updateCategory) [Admin] #####");
+        try {
+            Category updatedCategory = categoryService.updateCategory(id, category);
+            PaginatedResponse.SingleResponse<Category> response = ResponseHelper.createSingleResponse(
+                    "success", 0, "successfully", updatedCategory
+            );
 
-        return ResponseEntity.ok(response);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            logger.info("Exception: " + e.getMessage(), e);
+            PaginatedResponse.SingleResponse<Category> response = ResponseHelper.createSingleResponse(
+                    "errors", 0, "Có lỗi xẩy ra, xin vui lòng thử lại", null
+            );
+            return ResponseEntity.ok(response);
+        } finally {
+            logger.info("##### REQUEST FINISHED (updateCategory) [Admin] #####");
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<PaginatedResponse.SingleResponse<Category>> deleteCategory(@PathVariable Long id) {
-        categoryService.deleteCategory(id);
-        PaginatedResponse.SingleResponse<Category> response = ResponseHelper.createSingleResponse(
-                "success", 0, "successfully", null
-        );
-        return ResponseEntity.ok(response);
+        logger.info("##### REQUEST RECEIVED (deleteCategory) [Admin] #####");
+        try {
+            categoryService.deleteCategory(id);
+            PaginatedResponse.SingleResponse<Category> response = ResponseHelper.createSingleResponse(
+                    "success", 0, "successfully", null
+            );
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            logger.info("Exception: " + e.getMessage(), e);
+            PaginatedResponse.SingleResponse<Category> response = ResponseHelper.createSingleResponse(
+                    "errors", 0, "Có lỗi xẩy ra, xin vui lòng thử lại", null
+            );
+            return ResponseEntity.ok(response);
+        } finally {
+            logger.info("##### REQUEST FINISHED (deleteCategory) [Admin] #####");
+        }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PaginatedResponse.SingleResponse<Category>> getCategoryById(@PathVariable Long id) {
+        logger.info("##### REQUEST RECEIVED (getCategoryById) [Admin] #####");
         try{
             Category category = categoryService.getCategoryById(id);
             PaginatedResponse.SingleResponse<Category> response = ResponseHelper.createSingleResponse(
@@ -82,6 +119,8 @@ public class AdminCategoryController {
                     "errors", 0, "Có lỗi xẩy ra, xin vui lòng thử lại", null
             );
             return ResponseEntity.ok(response);
+        } finally {
+            logger.info("##### REQUEST FINISHED (getCategoryById) [Admin] #####");
         }
     }
 }

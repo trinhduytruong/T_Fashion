@@ -31,6 +31,7 @@ public class CategoryController {
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
             @RequestParam(value = "size", required = false, defaultValue = "20") int size) {
 
+        logger.info("##### REQUEST RECEIVED (getAllCategories) #####");
         try {
             Page<Category> categoryPage = this.categoryService.getListCategories(name, status, page, size);
             return ResponseHelper.createPaginatedResponse("success", 0, "successfully", categoryPage);
@@ -38,6 +39,8 @@ public class CategoryController {
             logger.info("Exception: " + e.getMessage(), e);
             return ResponseHelper.createPaginatedResponse("success", 0, "successfully", null);
 
+        } finally {
+            logger.info("##### REQUEST FINISHED (getAllCategories) [Admin] #####");
         }
     }
 

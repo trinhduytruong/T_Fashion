@@ -23,9 +23,7 @@ public class CategoryService {
 
     public Page<Category> getListCategories(String name, String status, int page, int size) {
         try {
-            logger.info("====== START Function (getListCategories) ======");
             Pageable pageable = PageRequest.of(page - 1, size);
-            logger.info("====== END Function (getListCategories) ======");
             return this.categoryRepository.getListCategories(name, status, pageable);
         } catch (Exception e) {
             logger.error("CategoryService.getListCategories(): " + e);
@@ -38,9 +36,7 @@ public class CategoryService {
 
     public Category createCategory(Category category) {
         try {
-            logger.info("====== START Function (createCategory) ======");
             logger.info("Create category: " + category);
-            logger.info("====== END Function (createCategory) ======");
             return categoryRepository.save(category);
         } catch (Exception e) {
             logger.error("CategoryService.createCategory(): " + e);
@@ -49,7 +45,6 @@ public class CategoryService {
     }
 
     public Category updateCategory(Long id, Category category) {
-        logger.info("====== START Function (updateCategory) ======");
         try {
             Optional<Category> existingCategoryOpt = categoryRepository.findById(id);
 
@@ -70,7 +65,6 @@ public class CategoryService {
                 existingCategory.setUpdated_at(category.getUpdated_at());
                 logger.info("Updated category with ID: " + id);
 
-                logger.info("====== END Function (updateCategory) ======");
                 return categoryRepository.save(existingCategory);
             } else {
                 throw new RuntimeException("Category not found with id " + id);
@@ -82,12 +76,10 @@ public class CategoryService {
     }
 
     public void deleteCategory(Long id) {
-        logger.info("====== START Function (deleteCategory) ======");
         try {
             if (categoryRepository.existsById(id)) {
                 categoryRepository.deleteById(id);
                 logger.info("Deleted category with ID: " + id);
-                logger.info("====== END Function (deleteCategory) ======");
             } else {
                 throw new RuntimeException("Category not found with id " + id);
             }
