@@ -2,7 +2,10 @@ package datn.be.controller.admin;
 
 import datn.be.common.PaginatedResponse;
 import datn.be.common.ResponseHelper;
+import datn.be.dto.ProductRequest;
+import datn.be.model.Category;
 import datn.be.model.Product;
+import datn.be.service.CategoryService;
 import datn.be.service.ProductService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +24,9 @@ public class AdminProductController {
 
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private CategoryService categoryService;
 
     @GetMapping
     public PaginatedResponse<Product> getListProducts(
@@ -42,14 +48,33 @@ public class AdminProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+    public ResponseEntity<PaginatedResponse.SingleResponse<Product>> createProduct(
+            @RequestBody ProductRequest request) {
         logger.info("##### REQUEST RECEIVED (createProduct) [Admin] #####");
         try {
-            Product createdProduct = productService.createProduct(product);
+            if (request.getCategoryId() == null) {
+                throw new RuntimeException("Category ID must not be null");
+            }
+
+            Category category = categoryService.getCategoryById(request.getCategoryId());
+
+            Product product = new Product();
+            product.setCategory(category);
+            product.setName(request.getName());
+            product.setSlug(request.getSlug());
+            product.setPrice(request.getPrice());
+            product.setSale(request.getSale());
+            product.setStatus(request.getStatus());
+            product.setAvatar(request.getAvatar());
+            product.setDescription(request.getDescription());
+            product.setContents(request.getContents());
+
+            Product createdProduct = productService.createProduct(product, request.getProductsLabels());
+
             PaginatedResponse.SingleResponse<Product> response = ResponseHelper.createSingleResponse(
                     "success", 0, "successfully", createdProduct
             );
-            return ResponseEntity.ok(createdProduct);
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             logger.info("Exception: " + e.getMessage(), e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -62,10 +87,10 @@ public class AdminProductController {
     @PutMapping("/{id}")
     public ResponseEntity<PaginatedResponse.SingleResponse<Product>> updateProduct(
             @PathVariable Long id,
-            @RequestBody Product product) {
+            @RequestBody ProductRequest request) {
         logger.info("##### REQUEST RECEIVED (updateProduct) [Admin] #####");
        try {
-           Product updatedProduct = productService.updateProduct(id, product);
+           Product updatedProduct = productService.updateProduct(id, request);
            PaginatedResponse.SingleResponse<Product> response = ResponseHelper.createSingleResponse(
                    "success", 0, "successfully", updatedProduct
            );
