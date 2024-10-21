@@ -2,7 +2,6 @@ package datn.be.controller.admin;
 
 import datn.be.common.PaginatedResponse;
 import datn.be.common.ResponseHelper;
-import datn.be.controller.guest.BrandController;
 import datn.be.model.Article;
 import datn.be.service.ArticleService;
 import org.slf4j.Logger;
