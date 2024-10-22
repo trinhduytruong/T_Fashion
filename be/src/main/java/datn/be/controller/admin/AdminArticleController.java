@@ -2,8 +2,11 @@ package datn.be.controller.admin;
 
 import datn.be.common.PaginatedResponse;
 import datn.be.common.ResponseHelper;
+import datn.be.dto.ArticleRequest;
 import datn.be.model.Article;
+import datn.be.model.Menu;
 import datn.be.service.ArticleService;
+import datn.be.service.MenuService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +24,13 @@ public class AdminArticleController {
     @Autowired
     private ArticleService service;
 
+    @Autowired
+    private MenuService menuService;
+
     @GetMapping
     public PaginatedResponse<Article> getListsArticle(
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
             @RequestParam(value = "size", required = false, defaultValue = "20") int size) {
-
         logger.info("##### REQUEST RECEIVED (getListsArticle) [Admin] #####");
         try {
             Page<Article> lists = this.service.getLists(page, size);
@@ -39,12 +44,24 @@ public class AdminArticleController {
     }
 
     @PostMapping
-    public ResponseEntity<PaginatedResponse.SingleResponse<Article>> createArticle(@RequestBody Article article) {
+    public ResponseEntity<PaginatedResponse.SingleResponse<Article>> createArticle(@RequestBody ArticleRequest articleRequest) {
         logger.info("##### REQUEST RECEIVED (createArticle) [Admin] #####");
         try {
-            Article dataCreate = service.create(article);
+            Menu menu = menuService.findById(articleRequest.getMenuId());
+            Article article = new Article();
+            article.setName(articleRequest.getName());
+            article.setSlug(articleRequest.getSlug());
+            article.setStatus(articleRequest.getStatus());
+            article.setDescription(articleRequest.getDescription());
+            article.setIs_featured(articleRequest.getIsFeatured());
+            article.setViews(articleRequest.getViews());
+            article.setAvatar(articleRequest.getAvatar());
+            article.setContent(articleRequest.getContent());
+            article.setMenu(menu);
+
+            Article createdArticle = service.create(article, articleRequest.getTags());
             PaginatedResponse.SingleResponse<Article> response = ResponseHelper.createSingleResponse(
-                    "success", 0, "successfully", dataCreate
+                    "success", 0, "successfully", createdArticle
             );
             return ResponseEntity.ok(response);
         } catch (Exception e) {

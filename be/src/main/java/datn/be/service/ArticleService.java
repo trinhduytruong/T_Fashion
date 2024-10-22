@@ -1,7 +1,10 @@
 package datn.be.service;
 
 import datn.be.model.Article;
+import datn.be.model.Tag;
 import datn.be.repository.ArticleRepository;
+import datn.be.repository.ArticleTagRepository;
+import datn.be.repository.TagRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +12,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class ArticleService {
@@ -19,6 +26,12 @@ public class ArticleService {
 
     @Autowired
     private ArticleRepository repository;
+
+    @Autowired
+    private TagRepository tagRepository;
+
+    @Autowired
+    private ArticleTagRepository articleTagRepository;
 
     public Page<Article> getLists(int page, int size) {
         try{
@@ -32,9 +45,20 @@ public class ArticleService {
         }
     }
 
-    public Article create(Article article) {
+    @Transactional
+    public Article create(Article article, Set<Long> tagIds) {
         try {
-            logger.info("create article: " + article);
+            if (tagIds == null) {
+                tagIds = Collections.emptySet();
+            }
+
+            // Tìm các Tag từ danh sách ID
+            Set<Tag> tags = tagIds.stream()
+                    .map(id -> tagRepository.findById(id)
+                            .orElseThrow(() -> new RuntimeException("Tag not found: " + id)))
+                    .collect(Collectors.toSet());
+
+            article.setTags(tags);
             return repository.save(article);
         } catch (Exception e){
             logger.error("ArticleService.create() ", e);

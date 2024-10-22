@@ -1,8 +1,12 @@
 package datn.be.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "bl_tags")
@@ -32,4 +36,9 @@ public class Tag {
 
     @Column(nullable = true)
     private String updated_at;
+
+    @ManyToMany(mappedBy = "tags")
+    @JsonIgnore
+    private Set<Article> articles = new HashSet<>();
 }
+

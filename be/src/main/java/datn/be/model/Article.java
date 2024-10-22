@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Table(name = "bl_articles")
 
@@ -35,8 +38,8 @@ public class Article {
     @Column(nullable = true)
     private Integer is_featured;
 
-    @Column(nullable = true)
-    private Integer menu_id;
+//    @Column(nullable = true)
+//    private Integer menu_id;
 
     @Column(nullable = true)
     private Integer views;
@@ -48,7 +51,14 @@ public class Article {
     private String updated_at;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "menu_id", insertable = false, updatable = false)
+    @JoinColumn(name = "menu_id")
     private Menu menu;
-}
 
+    @ManyToMany
+    @JoinTable(
+            name = "bl_articles_tags", // Bảng trung gian giữa article và tag
+            joinColumns = @JoinColumn(name = "article_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    private Set<Tag> tags = new HashSet<>();
+}
