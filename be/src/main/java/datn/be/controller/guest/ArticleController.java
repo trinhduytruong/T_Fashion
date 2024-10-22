@@ -38,8 +38,8 @@ public class ArticleController {
     }
 
     @GetMapping("/slug/{slug}")
-    public ResponseEntity<PaginatedResponse.SingleResponse<Article>> findBySlug(@PathVariable String slug) {
-        logger.info("##### REQUEST RECEIVED (findBySlug) #####");
+    public ResponseEntity<PaginatedResponse.SingleResponse<Article>> findArticleBySlug(@PathVariable String slug) {
+        logger.info("##### REQUEST RECEIVED (findArticleBySlug) #####");
         try{
             Article modelData = service.findBySlug(slug);
             PaginatedResponse.SingleResponse<Article> response = ResponseHelper.createSingleResponse(
@@ -53,7 +53,7 @@ public class ArticleController {
             );
             return ResponseEntity.ok(response);
         } finally {
-            logger.info("##### REQUEST FINISHED (findBySlug) #####");
+            logger.info("##### REQUEST FINISHED (findArticleBySlug) #####");
         }
     }
 

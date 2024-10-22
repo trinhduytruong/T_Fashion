@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/admin/products")
 
@@ -33,11 +35,12 @@ public class AdminProductController {
             @RequestParam(value = "name", required = false, defaultValue = "") String name,
             @RequestParam(value = "status", required = false, defaultValue = "") String status,
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+            @RequestParam(value = "product_labels", required = false) List<Long> productLabelIds,
             @RequestParam(value = "size", required = false, defaultValue = "20") int size) {
 
         logger.info("##### REQUEST RECEIVED (getListProducts) [Admin] #####");
         try {
-            Page<Product> productPage = this.productService.getListProducts(name, status, page, size);
+            Page<Product> productPage = this.productService.getListProducts(name, status, productLabelIds, page, size);
             return ResponseHelper.createPaginatedResponse("success", 0, "successfully", productPage);
         } catch (Exception e) {
             logger.info("Exception: " + e.getMessage(), e);

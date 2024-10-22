@@ -37,6 +37,25 @@ public class MenuController {
         }
     }
 
+    @GetMapping("/slug/{slug}")
+    public ResponseEntity<PaginatedResponse.SingleResponse<Menu>> findMenuBySlug(@PathVariable String slug) {
+        logger.info("##### REQUEST RECEIVED (findMenuBySlug) #####");
+        try{
+            Menu modelData = service.findBySlug(slug);
+            PaginatedResponse.SingleResponse<Menu> response = ResponseHelper.createSingleResponse(
+                    "success", 0, "successfully", modelData
+            );
+            return ResponseEntity.ok(response);
+        } catch (Exception e){
+            PaginatedResponse.SingleResponse<Menu> response = ResponseHelper.createSingleResponse(
+                    "errors", 0, "Có lỗi xẩy ra, xin vui lòng thử lại", null
+            );
+            return ResponseEntity.ok(response);
+        } finally {
+            logger.info("##### REQUEST FINISHED (findMenuBySlug) #####");
+        }
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<PaginatedResponse.SingleResponse<Menu>> findMenuById(@PathVariable Long id) {
         logger.info("##### REQUEST RECEIVED (findMenuById) #####");

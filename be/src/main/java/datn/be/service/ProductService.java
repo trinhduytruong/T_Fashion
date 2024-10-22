@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -34,10 +35,10 @@ public class ProductService {
     @Autowired
     private ProductLabelsRepository productLabelsRepository;
 
-    public Page<Product> getListProducts(String name, String status, int page, int size) {
+    public Page<Product> getListProducts(String name, String status, List<Long> productLabelIds, int page, int size) {
         try {
             Pageable pageable = PageRequest.of(page - 1, size);
-            Page<Product> productList = productRepository.getListProducts(name, status, pageable);
+            Page<Product> productList = productRepository.getListProducts(name, status, productLabelIds, pageable);
             logger.info("productList:" + productList);
             return productList;
         } catch (Exception e) {
@@ -122,6 +123,12 @@ public class ProductService {
         logger.info("get product with ID: " + id);
         return productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Product not found with id " + id));
+    }
+
+    public Product findBySlug(String slug) {
+        logger.info("get product by slug " + slug);
+        return productRepository.findBySlug(slug)
+                .orElseThrow(() -> new RuntimeException("Data not found with slug " + slug));
     }
 }
 

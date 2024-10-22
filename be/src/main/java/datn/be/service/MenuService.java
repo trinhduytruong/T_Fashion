@@ -82,4 +82,10 @@ public class MenuService {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Data not found with id " + id));
     }
+
+    public Menu findBySlug(String slug) {
+        logger.info("get menu by slug " + slug);
+        return repository.findBySlug(slug)
+                .orElseThrow(() -> new RuntimeException("Data not found with slug " + slug));
+    }
 }
