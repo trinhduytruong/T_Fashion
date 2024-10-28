@@ -84,4 +84,10 @@ public class TagService {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Data not found with id " + id));
     }
+
+    public Tag findBySlug(String slug) {
+        logger.info("get tag with slug: " + slug);
+        return repository.findBySlug(slug)
+                .orElseThrow(() -> new RuntimeException("Data not found with slug " + slug));
+    }
 }

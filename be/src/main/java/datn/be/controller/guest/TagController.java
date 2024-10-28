@@ -37,6 +37,26 @@ public class TagController {
         }
     }
 
+    @GetMapping("/slug/{slug}")
+    public ResponseEntity<PaginatedResponse.SingleResponse<Tag>> findTagBySlug(@PathVariable String slug) {
+        logger.info("##### REQUEST RECEIVED (findTagBySlug) #####");
+        try{
+            Tag modelData = service.findBySlug(slug);
+            PaginatedResponse.SingleResponse<Tag> response = ResponseHelper.createSingleResponse(
+                    "success", 0, "successfully", modelData
+            );
+            return ResponseEntity.ok(response);
+        } catch (Exception e){
+            logger.info("Exception: " + e.getMessage(), e);
+            PaginatedResponse.SingleResponse<Tag> response = ResponseHelper.createSingleResponse(
+                    "errors", 0, "Có lỗi xẩy ra, xin vui lòng thử lại", null
+            );
+            return ResponseEntity.ok(response);
+        } finally {
+            logger.info("##### REQUEST FINISHED (findTagBySlug) #####");
+        }
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<PaginatedResponse.SingleResponse<Tag>> findTagById(@PathVariable Long id) {
         logger.info("##### REQUEST RECEIVED (findTagById) #####");

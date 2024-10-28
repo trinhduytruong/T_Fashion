@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
+
 @RestController
 @RequestMapping("/api/v1/articles")
 
@@ -24,10 +26,11 @@ public class ArticleController {
     @GetMapping
     public PaginatedResponse<Article> getListsArticle(
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+            @RequestParam(value = "tag_ids", required = false) Set<Long> tagIds,
             @RequestParam(value = "size", required = false, defaultValue = "20") int size) {
         logger.info("##### REQUEST RECEIVED (getListsArticle) #####");
         try {
-            Page<Article> dataResponse = this.service.getLists(page, size);
+            Page<Article> dataResponse = this.service.getLists(page, size, tagIds);
             return ResponseHelper.createPaginatedResponse("success", 0, "successfully", dataResponse);
         } catch (Exception e) {
             logger.info("Exception: " + e.getMessage(), e);
