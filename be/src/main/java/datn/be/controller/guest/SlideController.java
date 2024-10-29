@@ -31,6 +31,7 @@ public class SlideController {
             Page<Slide> productPage = this.service.getLists(page, size);
             return ResponseHelper.createPaginatedResponse("success", 0, "successfully", productPage);
         } catch (Exception e) {
+            logger.info("Exception: " + e.getMessage(), e);
             return ResponseHelper.createPaginatedResponse("errors", 0, "Có lỗi xẩy ra, xin vui lòng thử lại",null);
         } finally {
             logger.info("##### REQUEST FINISHED (getListsSlide) #####");
@@ -47,6 +48,7 @@ public class SlideController {
             );
             return ResponseEntity.ok(response);
         } catch (Exception e){
+            logger.info("Exception: " + e.getMessage(), e);
             PaginatedResponse.SingleResponse<Slide> response = ResponseHelper.createSingleResponse(
                     "errors", 0, "Có lỗi xẩy ra, xin vui lòng thử lại", null
             );
