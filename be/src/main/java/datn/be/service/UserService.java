@@ -53,7 +53,7 @@ public class UserService {
                 logger.info("Update user with ID: " + id);
                 return repository.save(existingUpdate);
             } else {
-                throw new RuntimeException("Data not found with id " + id);
+                throw new RuntimeException("User not found with id " + id);
             }
         } catch (Exception e){
             logger.error("UserService.update() ", e);
@@ -83,7 +83,7 @@ public class UserService {
                 logger.info("Update user with ID: " + id);
                 return repository.save(existingUpdate);
             } else {
-                throw new RuntimeException("Data not found with id " + id);
+                throw new RuntimeException("User not found with id " + id);
             }
         } catch (Exception e){
             logger.error("UserService.updateProfile() ", e);
@@ -97,7 +97,7 @@ public class UserService {
                 repository.deleteById(id);
                 logger.info("Delete user with ID: " + id);
             } else {
-                throw new RuntimeException("Data not found with id " + id);
+                throw new RuntimeException("User not found with id " + id);
             }
         } catch (Exception e){
             logger.error("UserService.delete() ", e);
@@ -108,7 +108,7 @@ public class UserService {
     public UserView findById(Long id) {
         logger.info("Get user with ID: " + id);
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Data not found with id " + id));
+                .orElseThrow(() -> new RuntimeException("User not found with id " + id));
     }
 }
 

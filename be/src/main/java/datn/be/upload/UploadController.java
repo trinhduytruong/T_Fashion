@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/api/v1/upload")
+@RequestMapping("/api/v1")
 public class UploadController {
 
     private static final Logger logger = LoggerFactory.getLogger(UploadController.class);
@@ -22,7 +22,7 @@ public class UploadController {
 
     private final String UPLOAD_DIR = System.getProperty("user.dir") + "/uploads/images/";
 
-    @PostMapping("/image")
+    @PostMapping("/upload/image")
     public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile file) {
         logger.info("##### REQUEST RECEIVED (uploadImage) #####");
         try {

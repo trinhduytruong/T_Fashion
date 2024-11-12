@@ -1,6 +1,6 @@
 package datn.be.service;
 
-import datn.be.dto.ProductRequest;
+import datn.be.dto.request.ProductRequest;
 import datn.be.model.Category;
 import datn.be.model.Product;
 import datn.be.model.ProductLabels;

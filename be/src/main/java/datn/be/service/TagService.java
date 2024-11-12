@@ -57,7 +57,7 @@ public class TagService {
                 logger.info("update tag with ID: " + id);
                 return repository.save(existingUpdate);
             } else {
-                throw new RuntimeException("Data not found with id " + id);
+                throw new RuntimeException("Tag not found with id " + id);
             }
         } catch (Exception e) {
             logger.error("TagService.update(): " + e);
@@ -71,7 +71,7 @@ public class TagService {
                 repository.deleteById(id);
                 logger.info("delete tag with ID: " + id);
             } else {
-                throw new RuntimeException("Data not found with id " + id);
+                throw new RuntimeException("Tag not found with id " + id);
             }
         } catch (Exception e) {
             logger.error("TagService.delete(): " + e);
@@ -82,12 +82,12 @@ public class TagService {
     public Tag findById(Long id) {
         logger.info("get tag with ID: " + id);
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Data not found with id " + id));
+                .orElseThrow(() -> new RuntimeException("Tag not found with id " + id));
     }
 
     public Tag findBySlug(String slug) {
         logger.info("get tag with slug: " + slug);
         return repository.findBySlug(slug)
-                .orElseThrow(() -> new RuntimeException("Data not found with slug " + slug));
+                .orElseThrow(() -> new RuntimeException("Tag not found with slug " + slug));
     }
 }

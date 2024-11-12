@@ -2,7 +2,7 @@ package datn.be.controller.admin;
 
 import datn.be.common.PaginatedResponse;
 import datn.be.common.ResponseHelper;
-import datn.be.dto.ProductRequest;
+import datn.be.dto.request.ProductRequest;
 import datn.be.model.Category;
 import datn.be.model.Product;
 import datn.be.service.CategoryService;

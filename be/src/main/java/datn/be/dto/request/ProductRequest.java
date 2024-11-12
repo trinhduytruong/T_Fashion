@@ -1,4 +1,4 @@
-package datn.be.dto;
+package datn.be.dto.request;
 
 import lombok.Getter;
 import lombok.Setter;

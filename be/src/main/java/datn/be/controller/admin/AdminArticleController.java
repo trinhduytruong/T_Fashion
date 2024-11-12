@@ -2,7 +2,7 @@ package datn.be.controller.admin;
 
 import datn.be.common.PaginatedResponse;
 import datn.be.common.ResponseHelper;
-import datn.be.dto.ArticleRequest;
+import datn.be.dto.request.ArticleRequest;
 import datn.be.model.Article;
 import datn.be.model.Menu;
 import datn.be.service.ArticleService;
@@ -81,10 +81,10 @@ public class AdminArticleController {
     @PutMapping("/{id}")
     public ResponseEntity<PaginatedResponse.SingleResponse<Article>> updateArticle(
             @PathVariable Long id,
-            @RequestBody Article article) {
+            @RequestBody ArticleRequest articleRequest) {
         logger.info("##### REQUEST RECEIVED (updateArticle) [Admin] #####");
         try {
-            Article updateModel = service.update(id, article);
+            Article updateModel = service.update(id, articleRequest);
             PaginatedResponse.SingleResponse<Article> response = ResponseHelper.createSingleResponse(
                     "success", 0, "successfully", updateModel
             );
