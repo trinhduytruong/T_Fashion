@@ -36,4 +36,18 @@ public class UploadController {
             logger.info("##### REQUEST FINISHED (uploadImage) #####");
         }
     }
+
+    @PostMapping("/uploads/image")
+    public ResponseEntity<?> uploadsImage(@RequestParam("file") MultipartFile file) {
+        logger.info("##### REQUEST RECEIVED (uploadsImage) #####");
+        try {
+            String fileUrl = uploadService.uploadFile(file);
+            return ResponseEntity.ok().body(new UploadResponse("success", 0, "Upload successful", fileUrl));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new UploadResponse("error", 1, "Upload failed", e.getMessage()));
+        } finally {
+            logger.info("##### REQUEST FINISHED (uploadsImage) #####");
+        }
+    }
 }
