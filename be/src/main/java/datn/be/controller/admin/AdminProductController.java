@@ -64,6 +64,7 @@ public class AdminProductController {
             Product product = new Product();
             product.setCategory(category);
             product.setName(request.getName());
+            product.setNumber(request.getNumber());
             product.setSlug(request.getSlug());
             product.setPrice(request.getPrice());
             product.setSale(request.getSale());

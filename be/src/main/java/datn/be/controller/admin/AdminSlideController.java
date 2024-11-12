@@ -44,6 +44,15 @@ public class AdminSlideController {
 
         logger.info("##### REQUEST RECEIVED (createSlide) [Admin] #####");
         try {
+            if(slide.getPage() == null || slide.getPage().isEmpty()) {
+                slide.setPage("home");
+            }
+            if(slide.getStatus() == null || slide.getStatus().isEmpty()) {
+                slide.setStatus("pending");
+            }
+            if(slide.getPosition() == null) {
+                slide.setPosition(1);
+            }
             Slide dataCreate = service.create(slide);
             PaginatedResponse.SingleResponse<Slide> response = ResponseHelper.createSingleResponse(
                     "success", 0, "successfully", dataCreate

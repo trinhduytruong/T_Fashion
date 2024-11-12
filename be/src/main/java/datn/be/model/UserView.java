@@ -25,6 +25,9 @@ public class UserView {
     private String phone;
 
     @Column(nullable = true)
+    private String password;
+
+    @Column(nullable = true)
     private String status;
 
     @Column(nullable = true)

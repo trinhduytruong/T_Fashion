@@ -43,4 +43,14 @@ public class ResponseHelper {
 
         return response;
     }
+
+    public static <T> PaginatedResponse.SingleResponseV2<T> createSingleResponseV2(String status, int errorCode, String message, T content) {
+        PaginatedResponse.SingleResponseV2<T> response = new PaginatedResponse.SingleResponseV2<>();
+        response.setStatus(status);
+        response.setErrorCode(errorCode);
+        response.setMessage(message);
+        response.setData(content);
+
+        return response;
+    }
 }

@@ -24,8 +24,11 @@ public class Menu {
     @Column(nullable = true)
     private String description;
 
-    @Column(nullable = true)
+    @Column(nullable = true, columnDefinition = "enum('published', 'draft', 'pending') DEFAULT 'pending'")
     private String status;
+
+    @Column(nullable = true, columnDefinition = " DEFAULT 1")
+    private int is_featured;
 
     @Column(nullable = true)
     private String created_at;

@@ -14,13 +14,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) throws Exception {
-        http.csrf().disable()
+        http.cors().disable()
+                .csrf().disable()
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/api/v1/auth/**").permitAll() // Cho phép truy cập mà không cần xác thực cho auth APIs
-                        .requestMatchers("/api/v1/users/**", "/api/v1/admin/**").authenticated() // Yêu cầu xác thực cho admin và users
-                        .anyRequest().permitAll() // Các request khác không cần xác thực
+                        .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/api/v1/users/**", "/api/v1/admin/**").authenticated()
+                        .anyRequest().permitAll()
                 )
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class); // Thêm JWT Filter vào chuỗi
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

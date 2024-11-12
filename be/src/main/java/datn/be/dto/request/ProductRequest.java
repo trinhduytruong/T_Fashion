@@ -12,6 +12,7 @@ public class ProductRequest {
     private String slug;
     private String status;
     private Integer indexSeo;
+    private Integer number;
     private Integer sale;
     private Integer price;
     private Long categoryId;

@@ -7,12 +7,10 @@ import lombok.Setter;
 import java.util.Date;
 
 @Entity
-@Table(name = "slides")
-
+@Table(name = "services")
 @Getter
 @Setter
-
-public class Slide {
+public class ServiceModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -21,22 +19,16 @@ public class Slide {
     private String name;
 
     @Column(nullable = true)
+    private String slug;
+
+    @Column(nullable = true, columnDefinition = "DEFAULT 0")
+    private int is_home_service ;
+
+    @Column(nullable = true, columnDefinition = "DEFAULT 0")
+    private int price ;
+
+    @Column(nullable = true)
     private String description;
-
-    @Column(nullable = true)
-    private String avatar;
-
-    @Column(nullable = true, columnDefinition = "enum('published', 'draft', 'pending') DEFAULT 'pending'")
-    private String status;
-
-    @Column(nullable = true)
-    private String page;
-
-    @Column(nullable = true)
-    private String link;
-
-    @Column(nullable = true)
-    private Integer position;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = true)
@@ -45,4 +37,5 @@ public class Slide {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(nullable = true)
     private Date updated_at;
+
 }

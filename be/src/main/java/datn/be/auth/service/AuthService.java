@@ -1,7 +1,8 @@
 package datn.be.auth.service;
 
-import datn.be.auth.dto.LoginRequest;
-import datn.be.auth.dto.RegisterRequest;
+import datn.be.auth.dto.request.LoginRequest;
+import datn.be.auth.dto.request.RegisterRequest;
+import datn.be.auth.dto.response.AuthResponse;
 import datn.be.auth.model.User;
 import datn.be.auth.repository.UserRepository;
 import datn.be.auth.security.JwtTokenUtil;
@@ -27,7 +28,7 @@ public class AuthService {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
-    public String register(RegisterRequest registerRequest) {
+    public AuthResponse register(RegisterRequest registerRequest) {
         try {
             logger.info("Register request: " + registerRequest);
             User user = new User();
@@ -37,14 +38,14 @@ public class AuthService {
             userRepository.save(user);
             String token = jwtTokenUtil.generateToken(user.getEmail());
             logger.info("token: {}", token);
-            return token;
+            return new AuthResponse(token, user);
         } catch (Exception e) {
             logger.error("AuthService.register(): " + e);
             throw new RuntimeException(e);
         }
     }
 
-    public Optional<String> login(LoginRequest loginRequest) {
+    public Optional<AuthResponse> login(LoginRequest loginRequest) {
         try {
             logger.info("Login request: " + loginRequest);
             Optional<User> userOpt = userRepository.findByEmail(loginRequest.getEmail());
@@ -52,7 +53,7 @@ public class AuthService {
             if (userOpt.isPresent() && passwordEncoder.matches(loginRequest.getPassword(), userOpt.get().getPassword())) {
                 String token = jwtTokenUtil.generateToken(userOpt.get().getEmail());
                 logger.info("token: {}", token);
-                return Optional.of(token);
+                return Optional.of(new AuthResponse(token, userOpt.get()));
             }
             return Optional.empty();
         } catch (Exception e) {

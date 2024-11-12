@@ -59,5 +59,14 @@ public class PaginatedResponse<T> {
             }
         }
     }
+
+    @Getter
+    @Setter
+    public static class SingleResponseV2<T> {
+        private String status;
+        private int errorCode;
+        private String message;
+        private T data;
+    }
 }
 
