@@ -38,6 +38,9 @@ public class Product {
     private Integer sale;
 
     @Column(nullable = true)
+    private Integer number;
+
+    @Column(nullable = true)
     private Integer price;
 
     @Column(nullable = true)
