@@ -5,9 +5,10 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "ec_transactions")
-
 @Getter
 @Setter
 public class Transaction {
@@ -21,11 +22,11 @@ public class Transaction {
     @Column(nullable = true)
     private Integer price;
 
-    @Column(nullable = true)
+    @Column(nullable = true, columnDefinition = "DEFAULT 'pending'")
     private String status;
 
-    @Column(nullable = true)
-    private Integer total_price;
+    @Column(nullable = true, precision = 16, scale = 2, columnDefinition = "DEFAULT 0")
+    private BigDecimal total_price;
 
     @Column(nullable = true)
     private String created_at;
@@ -34,7 +35,13 @@ public class Transaction {
     private String updated_at;
 
     @ManyToOne
+    @JoinColumn(name = "product_id", nullable = false)
+    @JsonIgnore
+    private Product product;
+
+    @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)
     @JsonIgnore
     private Order order;
 }
+

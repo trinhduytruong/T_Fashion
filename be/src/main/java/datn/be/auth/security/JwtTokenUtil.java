@@ -15,12 +15,13 @@ public class JwtTokenUtil {
 
     @Value("${jwt.secret}")
     private String SECRET_KEY;
+    private int time = 1000 * 60 * 60 * 24;
 
     public String generateToken(String email) {
         return Jwts.builder()
                 .setSubject(email) // Sử dụng email thay vì username
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 1 giờ
+                .setExpiration(new Date(System.currentTimeMillis() + time)) // 1 giờ
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
     }
