@@ -11,13 +11,15 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
-    @Query("SELECT p FROM Product p LEFT JOIN p.labels l WHERE " +
-            "(:name = '' OR :name IS NULL OR p.name LIKE %:name%) AND " +
+    @Query("SELECT p FROM Product p LEFT JOIN p.labels l  WHERE" +
+            " (:name = '' OR :name IS NULL OR p.name LIKE %:name%) AND " +
             "(:status = '' OR :status IS NULL OR p.status = :status) AND " +
+            "(:category_id IS NULL OR p.category.id = :category_id) AND " +
             "(COALESCE(:productLabelIds, NULL) IS NULL OR l.id IN (:productLabelIds))")
     Page<Product> getListProducts(@Param("name") String name,
                                   @Param("status") String status,
                                   @Param("productLabelIds") List<Long> productLabelIds,
+                                  @Param("category_id") Long category_id,
                                   Pageable pageable);
 
     Optional<Product> findBySlug(String slug);

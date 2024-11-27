@@ -27,11 +27,12 @@ public class ProductController {
             @RequestParam(value = "name", required = false, defaultValue = "") String name,
             @RequestParam(value = "status", required = false, defaultValue = "") String status,
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+            @RequestParam(value = "category_id", required = false) Long category_id,
             @RequestParam(value = "product_labels", required = false) List<Long> productLabelIds,
-            @RequestParam(value = "size", required = false, defaultValue = "20") int size) {
+            @RequestParam(value = "page_size", required = false, defaultValue = "20") int size) {
         logger.info("##### REQUEST RECEIVED (getAllProduct) #####");
         try {
-            Page<Product> dataResponse = this.service.getListProducts(name, status, productLabelIds, page, size);
+            Page<Product> dataResponse = this.service.getListProducts(name, status, productLabelIds, category_id, page, size);
             return ResponseHelper.createPaginatedResponse("success", 0, "successfully", dataResponse);
         } catch (Exception e) {
             logger.info("Exception: " + e.getMessage(), e);

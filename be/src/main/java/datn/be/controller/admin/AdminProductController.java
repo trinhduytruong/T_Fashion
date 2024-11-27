@@ -36,11 +36,12 @@ public class AdminProductController {
             @RequestParam(value = "status", required = false, defaultValue = "") String status,
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
             @RequestParam(value = "product_labels", required = false) List<Long> productLabelIds,
-            @RequestParam(value = "size", required = false, defaultValue = "20") int size) {
+            @RequestParam(value = "category_id", required = false, defaultValue = "") Long category_id,
+            @RequestParam(value = "page_size", required = false, defaultValue = "20") int size) {
 
         logger.info("##### REQUEST RECEIVED (getListProducts) [Admin] #####");
         try {
-            Page<Product> productPage = this.productService.getListProducts(name, status, productLabelIds, page, size);
+            Page<Product> productPage = this.productService.getListProducts(name, status, productLabelIds, category_id, page, size);
             return ResponseHelper.createPaginatedResponse("success", 0, "successfully", productPage);
         } catch (Exception e) {
             logger.info("Exception: " + e.getMessage(), e);

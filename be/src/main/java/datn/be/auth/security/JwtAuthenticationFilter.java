@@ -28,9 +28,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // Lấy JWT từ header
         final String authorizationHeader = request.getHeader("Authorization");
-
         String email = null;
         String jwt = null;
+        if (request.getRequestURI().startsWith("/api/v1/auth")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
+        if (!request.getRequestURI().startsWith("/api/v1/users") &&  !request.getRequestURI().startsWith("/api/v1/admin")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
 
         // Kiểm tra nếu JWT nằm trong header Authorization
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {

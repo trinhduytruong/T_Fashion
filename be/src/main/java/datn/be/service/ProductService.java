@@ -35,10 +35,10 @@ public class ProductService {
     @Autowired
     private ProductLabelsRepository productLabelsRepository;
 
-    public Page<Product> getListProducts(String name, String status, List<Long> productLabelIds, int page, int size) {
+    public Page<Product> getListProducts(String name, String status, List<Long> productLabelIds, Long category_id, int page, int size) {
         try {
             Pageable pageable = PageRequest.of(page - 1, size);
-            Page<Product> productList = productRepository.getListProducts(name, status, productLabelIds, pageable);
+            Page<Product> productList = productRepository.getListProducts(name, status, productLabelIds, category_id, pageable);
             logger.info("productList:" + productList);
             return productList;
         } catch (Exception e) {
