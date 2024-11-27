@@ -32,12 +32,16 @@ public class PaginatedResponse<T> {
         private int perPage;
         private int currentPage;
         private int lastPage;
+        private int page;
+        private int page_size;
 
         public Meta(long total, int perPage, int currentPage, int lastPage) {
             this.total = total;
             this.perPage = perPage;
             this.currentPage = currentPage;
             this.lastPage = lastPage;
+            this.page = currentPage;
+            this.page_size = perPage;
         }
     }
 
