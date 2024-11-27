@@ -25,7 +25,7 @@ public class AdminUserController {
     @GetMapping
     public PaginatedResponse<UserView> getListsUser(
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
-            @RequestParam(value = "size", required = false, defaultValue = "20") int size) {
+            @RequestParam(value = "page_size", required = false, defaultValue = "20") int size) {
         logger.info("##### REQUEST RECEIVED (getListsUser) [Admin] #####");
         try {
             Page<UserView> lists = this.service.getLists(page, size);

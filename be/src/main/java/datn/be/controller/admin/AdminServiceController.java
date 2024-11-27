@@ -25,7 +25,7 @@ public class AdminServiceController {
     @GetMapping
     public PaginatedResponse<?> getListsService(
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
-            @RequestParam(value = "size", required = false, defaultValue = "20") int size) {
+            @RequestParam(value = "page_size", required = false, defaultValue = "20") int size) {
         logger.info("##### REQUEST RECEIVED (getListsService) [Admin] #####");
         try {
             Page<ServiceModel> lists = service.getLists(page, size);

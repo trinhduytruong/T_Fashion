@@ -29,7 +29,7 @@ public class AdminPaymentMethodController {
             @RequestParam(value = "name", required = false, defaultValue = "") String name,
             @RequestParam(value = "status", required = false, defaultValue = "") String status,
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
-            @RequestParam(value = "size", required = false, defaultValue = "20") int size) {
+            @RequestParam(value = "page_size", required = false, defaultValue = "20") int size) {
         logger.info("##### REQUEST RECEIVED (getListPaymentsMethod) [Admin] #####");
         try {
             Page<PaymentMethod> productPage = this.paymentMethodService.getListPaymentsMethod(name, status, page, size);

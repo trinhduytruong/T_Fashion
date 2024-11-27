@@ -35,18 +35,12 @@ public class ArticleService {
     @Autowired
     private ArticleTagRepository articleTagRepository;
 
-    public Page<Article> getLists(int page, int size, Set<Long> tagIds) {
+    public Page<Article> getLists(int page, int size, String name, Set<Long> tagIds, Long menu_id) {
         try{
             Pageable pageable = PageRequest.of(page - 1, size);
-            if (tagIds != null && !tagIds.isEmpty()) {
-                Page<Article> articleList = repository.getListsByTagIds(tagIds, pageable);
-                logger.info("articleList: " + articleList);
-                return articleList;
-            } else {
-                Page<Article> articleList = repository.getLists(pageable);
-                logger.info("articleList: " + articleList);
-                return articleList;
-            }
+            Page<Article> articlePage = repository.getLists(pageable, name, tagIds, menu_id);
+            logger.info("articlePage: " + articlePage);
+            return articlePage;
         } catch (Exception e){
             logger.error("ArticleService.getLists() ", e);
             throw new RuntimeException("Failed to fetch article", e);

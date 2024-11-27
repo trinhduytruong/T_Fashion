@@ -26,7 +26,7 @@ public class AdminTagController {
     @GetMapping
     public PaginatedResponse<Tag> getListsTag(
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
-            @RequestParam(value = "size", required = false, defaultValue = "20") int size) {
+            @RequestParam(value = "page_size", required = false, defaultValue = "20") int size) {
 
         logger.info("##### REQUEST RECEIVED (getListsTag) [Admin] #####");
         try {

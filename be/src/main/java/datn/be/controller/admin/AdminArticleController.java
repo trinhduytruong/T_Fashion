@@ -32,11 +32,13 @@ public class AdminArticleController {
     @GetMapping
     public PaginatedResponse<Article> getListsArticle(
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
-            @RequestParam(value = "tag_ids", required = false) Set<Long> tagIds,
-            @RequestParam(value = "size", required = false, defaultValue = "20") int size) {
+            @RequestParam(value = "page_size", required = false, defaultValue = "20") int page_size,
+            @RequestParam(value = "name", required = false, defaultValue = "") String name,
+            @RequestParam(value = "menu_id", required = false) Long menu_id,
+            @RequestParam(value = "tag_ids", required = false) Set<Long> tagIds) {
         logger.info("##### REQUEST RECEIVED (getListsArticle) [Admin] #####");
         try {
-            Page<Article> lists = this.service.getLists(page, size, tagIds);
+            Page<Article> lists = this.service.getLists(page, page_size,name, tagIds, menu_id);
             return ResponseHelper.createPaginatedResponse("success", 0, "successfully", lists);
         } catch (Exception e) {
             logger.info("Exception: " + e.getMessage(), e);

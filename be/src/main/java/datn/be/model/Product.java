@@ -49,7 +49,7 @@ public class Product {
     @Column(nullable = true)
     private String updated_at;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne()
     @JoinColumn(name = "category_id")
     private Category category;
 

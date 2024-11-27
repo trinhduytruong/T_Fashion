@@ -11,7 +11,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Arrays;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/articles")
@@ -26,12 +28,17 @@ public class ArticleController {
     @GetMapping
     public PaginatedResponse<Article> getListsArticle(
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
-            @RequestParam(value = "tag_ids", required = false) Set<Long> tagIds,
-            @RequestParam(value = "size", required = false, defaultValue = "20") int size) {
+            @RequestParam(value = "page_size", required = false, defaultValue = "20") int page_size,
+            @RequestParam(value = "name", required = false, defaultValue = "") String name,
+            @RequestParam(value = "menu_id", required = false) Long menu_id,
+            @RequestParam(value = "tag_ids", required = false) String tagIds) {
         logger.info("##### REQUEST RECEIVED (getListsArticle) #####");
         try {
-            Page<Article> dataResponse = this.service.getLists(page, size, tagIds);
-            return ResponseHelper.createPaginatedResponse("success", 0, "successfully", dataResponse);
+            Set<Long> tagIdSet = (tagIds != null && !tagIds.isEmpty()) ?
+                    Arrays.stream(tagIds.split(",")).map(Long::parseLong).collect(Collectors.toSet()) :
+                    null;
+            Page<Article> lists = this.service.getLists(page, page_size, name, tagIdSet, menu_id);
+            return ResponseHelper.createPaginatedResponse("success", 0, "successfully", lists);
         } catch (Exception e) {
             logger.info("Exception: " + e.getMessage(), e);
             return ResponseHelper.createPaginatedResponse("errors", 0, "Có lỗi xẩy ra, xin vui lòng thử lại",null);
