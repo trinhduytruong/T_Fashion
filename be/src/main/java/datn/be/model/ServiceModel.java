@@ -31,11 +31,12 @@ public class ServiceModel {
     private String description;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = true)
+    @Column(nullable = true, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+
     private Date created_at;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = true)
-    private Date updated_at;
+    @Column(nullable = true, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
 
+    private Date updated_at;
 }

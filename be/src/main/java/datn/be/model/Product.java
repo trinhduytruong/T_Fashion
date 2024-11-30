@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -44,16 +45,28 @@ public class Product {
     private Integer price;
 
     @Column(nullable = true)
-    private String created_at;
+    private Integer total_vote_count;
 
     @Column(nullable = true)
-    private String updated_at;
+    private Integer total_rating_score;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = true, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Date created_at;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = true, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Date updated_at;
 
     @ManyToOne()
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToOne()
+    @JoinColumn(name = "brand_id")
+    private Brand brand;
+
+    @ManyToMany()
     @JoinTable(
             name = "ec_products_labels",
             joinColumns = @JoinColumn(name = "product_id"),

@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "users")
 
@@ -28,14 +30,33 @@ public class UserView {
     private String password;
 
     @Column(nullable = true)
-    private String status;
+    private int status;
 
     @Column(nullable = true)
     private String avatar;
 
     @Column(nullable = true)
-    private String created_at;
+    private String provider;
 
     @Column(nullable = true)
-    private String updated_at;
+    private String remember_token;
+
+    @Column(nullable = true, columnDefinition = "enum('USER', 'ADMIN') DEFAULT 'USER'")
+    private String user_type;
+
+    @Column(nullable = true)
+    private String provider_id;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = true)
+    private Date email_verified_at;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = true, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Date created_at;
+
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = true, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Date updated_at;
 }

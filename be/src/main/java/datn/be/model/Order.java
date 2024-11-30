@@ -13,8 +13,6 @@ import java.util.List;
 
 @Getter
 @Setter
-
-
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,18 +21,20 @@ public class Order {
     @Column(nullable = true)
     private String code;
 
-    @Column(nullable = false, columnDefinition = "DEFAULT 'PENDING'")
+    @Column(nullable = false, columnDefinition = "enum('pending', 'processing', 'completed', 'cancelled') DEFAULT 'pending'")
     private String status;
 
-    @Column(nullable = true, columnDefinition = "DEFAULT 'PENDING'")
+    @Column(nullable = true, columnDefinition = "enum('pending', 'completed', 'refunding', 'refunded') DEFAULT 'pending'")
     private String payment_status;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = true)
+    @Column(nullable = true, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+
     private Date created_at;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = true)
+    @Column(nullable = true, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+
     private Date updated_at;
 
     @Column(name="total_shipping_fee", nullable = true, precision = 16, scale = 2, columnDefinition = "DEFAULT 0")
@@ -70,12 +70,8 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-//    @JsonIgnore
     private UserView user;
 
-    // Thêm liên kết với Transaction
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Transaction> transactions;
 }
-
-

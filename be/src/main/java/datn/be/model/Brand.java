@@ -4,12 +4,13 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
+
 @Entity
 @Table(name = "ec_brands")
 
 @Getter
 @Setter
-
 public class Brand {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,8 +29,13 @@ public class Brand {
     private String status;
 
     @Column(nullable = true)
-    private String created_at;
+    private String description;
 
-    @Column(nullable = true)
-    private String updated_at;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = true, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Date created_at;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = true, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Date updated_at;
 }

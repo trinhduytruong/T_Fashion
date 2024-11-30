@@ -9,7 +9,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-
 public class ProductsLabels {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +22,6 @@ public class ProductsLabels {
     @JoinColumn(name = "product_label_id")
     private ProductLabels label;
 
-    // Thêm các trường khác nếu cần
     private String additionalInfo;
 }
 

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Date;
 import java.util.Set;
 
 @Entity
@@ -12,7 +13,6 @@ import java.util.Set;
 
 @Getter
 @Setter
-
 public class ProductLabels {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,13 +30,15 @@ public class ProductLabels {
     @Column(nullable = true)
     private String status;
 
-    @Column(nullable = true)
-    private String created_at;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = true, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Date created_at;
 
-    @Column(nullable = true)
-    private String updated_at;
 
-    // Mối quan hệ nhiều-nhiều với `Product`
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = true, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Date updated_at;
+
     @ManyToMany(mappedBy = "labels")
     @JsonIgnore
     private Set<Product> products;
